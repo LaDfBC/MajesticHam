@@ -10,11 +10,50 @@ package majesticham.mealcreator;
 public final class R {
     public static final class attr {
     }
+    public static final class dimen {
+        /**  Default screen margins, per the Android Design guidelines. 
+         */
+        public static final int activity_horizontal_margin=0x7f040000;
+        public static final int activity_vertical_margin=0x7f040001;
+    }
     public static final class drawable {
-        public static final int ic_launcher=0x7f020000;
+        public static final int close=0x7f020000;
+        public static final int ic_launcher=0x7f020001;
+    }
+    public static final class id {
+        public static final int action_settings=0x7f08000c;
+        public static final int addBtn=0x7f080001;
+        public static final int button1=0x7f080006;
+        public static final int editIngredientName=0x7f080002;
+        public static final int editIngredientQuant=0x7f080003;
+        public static final int editListName=0x7f080005;
+        public static final int img=0x7f080007;
+        public static final int itemName=0x7f08000a;
+        public static final int listView=0x7f080000;
+        public static final int name=0x7f080008;
+        public static final int numItems=0x7f08000b;
+        public static final int quantity=0x7f080009;
+        public static final int submit=0x7f080004;
+    }
+    public static final class layout {
+        public static final int activity_main=0x7f030000;
+        public static final int add_ingredient_dialog=0x7f030001;
+        public static final int add_item_list_dialog=0x7f030002;
+        public static final int ingredient_row_layout=0x7f030003;
+        public static final int item_list_display=0x7f030004;
+        public static final int item_row_layout=0x7f030005;
+        public static final int list_list_display=0x7f030006;
+        public static final int list_row_layout=0x7f030007;
+    }
+    public static final class menu {
+        public static final int item_list=0x7f070000;
+        public static final int main=0x7f070001;
     }
     public static final class string {
-        public static final int app_name=0x7f030000;
+        public static final int action_settings=0x7f050001;
+        public static final int app_name=0x7f050000;
+        public static final int hello_world=0x7f050002;
+        public static final int title_activity_item_list=0x7f050003;
     }
     public static final class style {
         /** 
@@ -38,10 +77,10 @@ public final class R {
     
  API 14 theme customizations can go here. 
          */
-        public static final int AppBaseTheme=0x7f040000;
+        public static final int AppBaseTheme=0x7f060000;
         /**  Application theme. 
  All customizations that are NOT specific to a particular API-level can go here. 
          */
-        public static final int AppTheme=0x7f040001;
+        public static final int AppTheme=0x7f060001;
     }
 }
