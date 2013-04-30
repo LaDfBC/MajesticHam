@@ -16,6 +16,12 @@
         	android:layout_weight="0.5"
         	android:layout_height="80dp"
         	android:layout_width="match_parent"/>
+    <Button android:id="@+id/searchBtn"
+        	android:text="Search For Recipes"
+        	android:onClick="searchClick"
+        	android:layout_weight="0.5"
+        	android:layout_height="80dp"
+        	android:layout_width="match_parent"/>
 
     
 </LinearLayout>

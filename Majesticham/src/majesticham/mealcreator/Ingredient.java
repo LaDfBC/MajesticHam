@@ -65,8 +65,7 @@ public class Ingredient {
 				 	"\"name\": \"" + name + "\"," +
 				 	"\"quantity\": \"" + quantity + "\"," +
 				 	"\"goodLength\": \"" + goodLength + "\"," +
-				 	"\"unit\": \"" + unit + "\"," +
-				 	"\"addDate\": \"" + addDate.toString() + "\"" +
+				 	"\"unit\": \"" + unit + "\"" +
 				 "}";
 		return retStr;
 	}

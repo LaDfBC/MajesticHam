@@ -1,9 +1,31 @@
 package majesticham.mealcreator;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.net.URLConnection;
+import java.net.URLEncoder;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.HttpStatus;
+import org.apache.http.StatusLine;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.params.HttpParams;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -76,13 +98,13 @@ public class ItemListActivity extends Activity {
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
 		int itemId = item.getItemId();
-		if(itemId == 1)
+		if(itemId == 1) //Increment
 		{
 			AdapterContextMenuInfo aInfo = (AdapterContextMenuInfo) item.getMenuInfo();
 			curList.getItems().get(aInfo.position).setQuantity(curList.getItems().get(aInfo.position).getQuantity()+1);
 			lAdpt.notifyDataSetChanged();
 		}
-		if(itemId == 2)
+		if(itemId == 2) //Delete 
 		{
 			AdapterContextMenuInfo aInfo = (AdapterContextMenuInfo) item.getMenuInfo();
 			curList.removeItem(curList.getItems().get(aInfo.position));
@@ -105,18 +127,14 @@ public class ItemListActivity extends Activity {
 			{
 				Ingredient myIng;
 				JSONObject item = listItems.getJSONObject(i);
-				//Ingredient(String name, int quantity, int goodLength, String unit, Date addDate)
 				String name = (String)item.get("name");
 				int quantity = Integer.parseInt((String)item.get("quantity"));
 				String unit = (String)item.get("unit");
-//TODO: this is more than min viable 
-//				int goodLength = Integer.parseInt((String)item.get("goodLength"));
-//				Date addDate = (Date)item.get("date");
 				myIng = new Ingredient(name, quantity, unit);
 				retList.addItem(myIng);
 			}
 		} catch (JSONException e) {
-			 Toast.makeText(ItemListActivity.this, "ItemListActivity JSON EXCEPTION", Toast.LENGTH_LONG).show();
+			Toast.makeText(ItemListActivity.this, "ItemListActivity JSON EXCEPTION", Toast.LENGTH_LONG).show();
 			e.printStackTrace();
 		}
 		return retList;
@@ -155,6 +173,77 @@ public class ItemListActivity extends Activity {
 			}
 		});
     	d.show();
+	}
+	public void readStream(InputStream in)
+	{
+		BufferedReader reader = null;
+		  try {
+		    reader = new BufferedReader(new InputStreamReader(in));
+		    String line = "";
+		    while ((line = reader.readLine()) != null) {
+		      System.out.println(line);
+		    }
+		  } catch (IOException e) {
+		    e.printStackTrace();
+		  } finally {
+		    if (reader != null) {
+		      try {
+		        reader.close();
+		      } catch (IOException e) {
+		        e.printStackTrace();
+		        }
+		    }
+		  }
+	}
+	public void searchClick(View view)
+	{
+		
+		HttpClient httpClient = new DefaultHttpClient();  
+		String url = "http://crabdancemc.com/foodapp/get_recipes/%5B";
+		String query = "";
+		//%5B%22american%20cheese%22%2C%22bread%22%2C%22garlic%22%5D
+		
+		for(int i = 0; i < curList.getItems().size(); i++)
+		{
+			
+			if(i < curList.getItems().size() - 1)
+			{
+				String temp = URLEncoder.encode(curList.getItems().get(i).getName()) + "%22,";
+				query = query + "%22" + temp.replace("+", "%20");
+			}
+			else
+			{
+				String temp = URLEncoder.encode(curList.getItems().get(i).getName()) + "%22";
+				query = query + "%22" + temp.replace("+", "%20");
+			}
+		}
+		url = url + query + "%5D";
+		HttpGet httpGet = new HttpGet(url);
+		try {
+		    HttpResponse response = httpClient.execute(httpGet);
+		    StatusLine statusLine = response.getStatusLine();
+		    if (statusLine.getStatusCode() == HttpStatus.SC_OK) {
+		        HttpEntity entity = response.getEntity();
+		        ByteArrayOutputStream out = new ByteArrayOutputStream();
+		        entity.writeTo(out);
+		        out.close();
+		        String responseStr = out.toString();
+		        if(responseStr.length() > 2)
+		        {
+		        	
+		        }
+		        else
+		        {
+		        	Toast.makeText(ItemListActivity.this, "No recipes found" , Toast.LENGTH_LONG).show();
+		        }
+		    } else {
+		    	Toast.makeText(ItemListActivity.this, "BAD RESPONSE", Toast.LENGTH_LONG).show();
+		    }
+		} catch (ClientProtocolException e) {
+			Toast.makeText(ItemListActivity.this, "Client Protocol EXCEPTION", Toast.LENGTH_LONG).show();
+		} catch (IOException e) {
+			Toast.makeText(ItemListActivity.this, "IO EXCEPTION", Toast.LENGTH_LONG).show();
+		}
 	}
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {

@@ -73,6 +73,7 @@ public class ItemList {
 		if(ingIndex == -1) //Item isn't in list, add it
 		{
 			this.items.add(item);
+			this.numItems++;
 		}
 		else  //Item is already in the list, increment the quantity by one
 		{
@@ -83,6 +84,7 @@ public class ItemList {
 	public void removeItem(Ingredient item){
 		int ingIndex = this.items.indexOf(item);
 		this.items.remove(ingIndex);
+		this.numItems--;
 	}
 	public int contains(Ingredient item)
 	{
