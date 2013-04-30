@@ -87,7 +87,6 @@ public class ItemListActivity extends Activity {
 
 		super.onCreateContextMenu(menu, v, menuInfo);
 		AdapterContextMenuInfo aInfo = (AdapterContextMenuInfo) menuInfo;
-
 		// We know that each row in the adapter is a Map
 		Ingredient ing =  lAdpt.getItem(aInfo.position);
 
@@ -230,7 +229,9 @@ public class ItemListActivity extends Activity {
 		        String responseStr = out.toString();
 		        if(responseStr.length() > 2)
 		        {
-		        	
+		        	Intent intent = new Intent(ItemListActivity.this, RecipeListActivity.class);
+			        intent.putExtra("PassedString", responseStr);
+			        startActivity(intent);
 		        }
 		        else
 		        {
